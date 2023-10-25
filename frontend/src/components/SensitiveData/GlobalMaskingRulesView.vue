@@ -116,7 +116,7 @@
 <script lang="ts" setup>
 import type { SelectOption } from "naive-ui";
 import { v4 as uuidv4 } from "uuid";
-import { computed, reactive, nextTick, onMounted } from "vue";
+import { computed, reactive, nextTick, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { Factor } from "@/plugins/cel";
 import {
@@ -168,7 +168,8 @@ const hasPermission = computed(() => {
     currentUserV1.value.userRole
   );
 });
-const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+//const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+const hasSensitiveDataFeature = ref(true);
 
 const updateList = async () => {
   const policy = await policyStore.getOrFetchPolicyByParentAndType({

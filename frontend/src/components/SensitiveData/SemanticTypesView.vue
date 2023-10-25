@@ -25,7 +25,7 @@
 import { NButton } from "naive-ui";
 import type { SelectOption } from "naive-ui";
 import { v4 as uuidv4 } from "uuid";
-import { computed, reactive, onMounted } from "vue";
+import { computed, reactive, onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import {
   featureToRef,
@@ -58,7 +58,8 @@ const hasPermission = computed(() => {
     currentUserV1.value.userRole
   );
 });
-const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+//const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+const hasSensitiveDataFeature = ref(true);
 
 const algorithmList = computed((): SelectOption[] => {
   return (

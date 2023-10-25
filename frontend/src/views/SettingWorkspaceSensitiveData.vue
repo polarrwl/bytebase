@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { NTabs, NTabPane } from "naive-ui";
-import { reactive, watch } from "vue";
+import { reactive, watch, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import {
   SensitiveColumnView,
@@ -51,7 +51,8 @@ interface LocalState {
 const state = reactive<LocalState>({
   selectedTab: "sensitive-column-list",
 });
-const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+//const hasSensitiveDataFeature = featureToRef("bb.feature.sensitive-data");
+const hasSensitiveDataFeature = ref(true);
 const router = useRouter();
 const route = useRoute();
 
