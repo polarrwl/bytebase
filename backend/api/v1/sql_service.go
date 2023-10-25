@@ -869,6 +869,7 @@ func (s *SQLService) Check(ctx context.Context, request *v1pb.CheckRequest) (*v1
 //  3. post-query
 func (s *SQLService) Query(ctx context.Context, request *v1pb.QueryRequest) (*v1pb.QueryResponse, error) {
 	user, instance, database, adviceStatus, adviceList, sensitiveSchemaInfo, err := s.preCheck(ctx, request.Name, request.ConnectionDatabase, request.Statement, request.Limit, false /* isAdmin */, false /* isExport */)
+	slog.Info("s.preCheck:", user, ",", database, ",", err)
 	if err != nil {
 		return nil, err
 	}
@@ -892,6 +893,7 @@ func (s *SQLService) Query(ctx context.Context, request *v1pb.QueryRequest) (*v1
 		DatabaseID:             databaseID,
 		DatabaseName:           request.ConnectionDatabase,
 	})
+	slog.Info("s.createQueryActivity:", activity, ",", err)
 	if err != nil {
 		return nil, err
 	}
@@ -901,9 +903,11 @@ func (s *SQLService) Query(ctx context.Context, request *v1pb.QueryRequest) (*v1
 	var durationNs int64
 	if adviceStatus != advisor.Error {
 		results, durationNs, queryErr = s.doQuery(ctx, request, instance, database, sensitiveSchemaInfo)
+		slog.Info("s.doQuery:", results, ",", queryErr)
 	}
 
 	err = s.postQuery(ctx, activity, durationNs, queryErr)
+	slog.Info("s.postQuery:", ",", err)
 	if err != nil {
 		return nil, err
 	}
@@ -914,6 +918,7 @@ func (s *SQLService) Query(ctx context.Context, request *v1pb.QueryRequest) (*v1
 
 	// AllowExport is a validate only check.
 	_, _, _, _, _, _, err = s.preCheck(ctx, request.Name, request.ConnectionDatabase, request.Statement, request.Limit, false /* isAdmin */, true /* isExport */)
+	slog.Info("s.preCheck:", err)
 	allowExport := (err == nil)
 
 	response := &v1pb.QueryResponse{

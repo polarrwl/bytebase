@@ -1,5 +1,6 @@
 <template>
   <div class="w-full mt-4 space-y-4 text-sm">
+
     <FeatureAttentionForInstanceLicense
       v-if="hasCustomApprovalFeature"
       feature="bb.feature.custom-approval"
@@ -50,7 +51,8 @@ const state = reactive<LocalState>({
   showFeatureModal: false,
 });
 const tab = useRouteHash("rules", TabValueList, "replace");
-const hasCustomApprovalFeature = featureToRef("bb.feature.custom-approval");
+//const hasCustomApprovalFeature = featureToRef("bb.feature.custom-approval");
+const hasCustomApprovalFeature = ref(true);
 
 const currentUserV1 = useCurrentUserV1();
 const allowAdmin = computed(() => {

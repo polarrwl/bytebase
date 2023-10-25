@@ -1,6 +1,6 @@
 <template>
   <div class="w-full mt-4 space-y-4">
-    <FeatureAttention feature="bb.feature.audit-log" />
+    <!-- <FeatureAttention feature="bb.feature.audit-log" /> -->
     <div class="flex justify-end items-center mt-1 space-x-2">
       <MemberSelect
         class="w-52"
@@ -128,7 +128,8 @@ const route = useRoute();
 const userStore = useUserStore();
 const activityV1Store = useActivityV1Store();
 
-const hasAuditLogFeature = featureToRef("bb.feature.audit-log");
+//const hasAuditLogFeature = featureToRef("bb.feature.audit-log");
+const hasAuditLogFeature = true;
 
 const logKeyMap = {
   createdTs: t("audit-log.table.created-time"),

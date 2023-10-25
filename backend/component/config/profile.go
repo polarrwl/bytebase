@@ -79,5 +79,7 @@ var saasFeatureControlMap = map[string]bool{
 
 // IsFeatureUnavailable returns if the feature is unavailable in SaaS mode.
 func (prof *Profile) IsFeatureUnavailable(feature string) bool {
-	return prof.SaaS && saasFeatureControlMap[feature]
+	//return prof.SaaS && saasFeatureControlMap[feature]
+	//edit by polarrwl , 2023.10.25, allow all
+	return false
 }

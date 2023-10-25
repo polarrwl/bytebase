@@ -109,15 +109,17 @@ func (s *LicenseService) LoadSubscription(ctx context.Context) enterpriseAPI.Sub
 
 // IsFeatureEnabled returns whether a feature is enabled.
 func (s *LicenseService) IsFeatureEnabled(feature api.FeatureType) error {
-	if !api.Feature(feature, s.GetEffectivePlan()) {
+	/*if !api.Feature(feature, s.GetEffectivePlan()) {
 		return errors.Errorf(feature.AccessErrorMessage())
-	}
+	}*/
+	//edit by polarrwl , 2023.10.25, allow all
 	return nil
 }
 
 // IsFeatureEnabledForInstance returns whether a feature is enabled for the instance.
 func (s *LicenseService) IsFeatureEnabledForInstance(feature api.FeatureType, instance *store.InstanceMessage) error {
-	plan := s.GetEffectivePlan()
+	//edit by polarrwl , 2023.10.25, allow all
+	/*plan := s.GetEffectivePlan()
 	// DONOT check instance license fo FREE plan.
 	if plan == api.FREE {
 		return s.IsFeatureEnabled(feature)
@@ -131,17 +133,19 @@ func (s *LicenseService) IsFeatureEnabledForInstance(feature api.FeatureType, in
 	}
 	if !instance.Activation {
 		return errors.Errorf(`feature "%s" is not available for instance %s, please assign license to the instance to enable it`, feature.Name(), instance.ResourceID)
-	}
+	}*/
 	return nil
 }
 
 // GetInstanceLicenseCount returns the instance count limit for current subscription.
 func (s *LicenseService) GetInstanceLicenseCount(ctx context.Context) int {
-	instanceCount := s.LoadSubscription(ctx).InstanceCount
+	//edit by polarrwl , 2023.10.25, allow all
+	/*instanceCount := s.LoadSubscription(ctx).InstanceCount
 	if instanceCount < 0 {
 		return math.MaxInt
 	}
-	return instanceCount
+	return instanceCount*/
+	return 100
 }
 
 // GetEffectivePlan gets the effective plan.

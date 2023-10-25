@@ -39,11 +39,13 @@
       @close="state.detail.role = undefined"
     />
 
+    <!--
     <FeatureModal
       feature="bb.feature.custom-role"
       :open="showFeatureModal"
       @cancel="showFeatureModal = false"
     />
+    -->
   </div>
 </template>
 
@@ -79,7 +81,8 @@ const state = reactive<LocalState>({
   },
 });
 
-const hasCustomRoleFeature = featureToRef("bb.feature.custom-role");
+//const hasCustomRoleFeature = featureToRef("bb.feature.custom-role");
+const hasCustomRoleFeature = ref(true);
 const showFeatureModal = ref(false);
 
 const allowAdmin = useWorkspacePermissionV1(
