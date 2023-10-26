@@ -178,7 +178,7 @@ func findRoleImpl(ctx context.Context, txn *sql.Tx, find *roleFind) ([]*db.Datab
 		where = append(where, "r.rolname !~ '^pg_'")
 	}
 
-	statement := fmt.Sprintf(`
+	/*statement := fmt.Sprintf(`
 		SELECT
 			r.rolname,
 			r.rolsuper,
@@ -188,6 +188,21 @@ func findRoleImpl(ctx context.Context, txn *sql.Tx, find *roleFind) ([]*db.Datab
 			r.rolcanlogin,
 			r.rolreplication,
 			r.rolbypassrls,
+			r.rolvaliduntil,
+			r.rolconnlimit
+		FROM pg_catalog.pg_roles r
+		WHERE %s;
+	`, strings.Join(where, " AND "))*/
+	statement := fmt.Sprintf(`
+		SELECT
+			r.rolname,
+			r.rolsuper,
+			r.rolinherit,
+			r.rolcreaterole,
+			r.rolcreatedb,
+			r.rolcanlogin,
+			r.rolreplication,
+			false as rolbypassrls,
 			r.rolvaliduntil,
 			r.rolconnlimit
 		FROM pg_catalog.pg_roles r
@@ -335,8 +350,13 @@ func convertToAttributeStatement(r *db.DatabaseRoleUpsertMessage) string {
 }
 
 func (driver *Driver) getInstanceRoles(ctx context.Context) ([]*storepb.InstanceRoleMetadata, error) {
-	query := `
+	/*query := `
 		SELECT r.rolname, r.rolsuper, r.rolinherit, r.rolcreaterole, r.rolcreatedb, r.rolcanlogin, r.rolreplication, r.rolvaliduntil, r.rolbypassrls
+		FROM pg_catalog.pg_roles r
+		WHERE r.rolname !~ '^pg_';
+	`*/
+	query := `
+		SELECT r.rolname, r.rolsuper, r.rolinherit, r.rolcreaterole, r.rolcreatedb, r.rolcanlogin, r.rolreplication, r.rolvaliduntil, false as rolbypassrls
 		FROM pg_catalog.pg_roles r
 		WHERE r.rolname !~ '^pg_';
 	`
