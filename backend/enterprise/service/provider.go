@@ -2,9 +2,7 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"io"
 	"log/slog"
 	"net/http"
 	"time"
@@ -91,7 +89,8 @@ func (p *LicenseProvider) FetchLicense(ctx context.Context) (string, error) {
 }
 
 func (p *LicenseProvider) requestLicense(ctx context.Context, agentURL, agentToken string) (string, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, agentURL, nil)
+	slog.Info("not request license!")
+	/*req, err := http.NewRequestWithContext(ctx, http.MethodGet, agentURL, nil)
 	if err != nil {
 		return "", errors.Wrapf(err, "construct GET %s", agentURL)
 	}
@@ -117,7 +116,8 @@ func (p *LicenseProvider) requestLicense(ctx context.Context, agentURL, agentTok
 		return "", errors.Wrapf(err, "unmarshal body from GET %s", agentURL)
 	}
 
-	return response.License, nil
+	return response.License, nil*/
+	return "", nil
 }
 
 func (p *LicenseProvider) parseJWTToken(tokenStr string) (*internalTokenClaims, error) {
